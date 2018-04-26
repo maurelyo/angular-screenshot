@@ -106,6 +106,7 @@ const screenshot = () => {
       };
 
       const toPng = (callback) => new Promise((resolve, reject) => {
+         console.log('Teste webpack');
          self.isOpen = false;
          $timeout(() => {
             const elementSelector = getElementSelector();
