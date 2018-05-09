@@ -3808,8 +3808,10 @@
                 var getOptions = function getOptions(element) {
                     var boudingClientRect = element.getBoundingClientRect();
                     var options = {
-                        width: boudingClientRect.width,
-                        height: boudingClientRect.height
+                        width: boudingClientRect.width + boudingClientRect.left,
+                        height: boudingClientRect.height + boudingClientRect.top,
+                        marginX: boudingClientRect.left,
+                        marginY: boudingClientRect.top
                     };
                     if (_utils.domprocess.isTransparent(element)) {
                         var parentBackgroundColor = _utils.domprocess.getStyle(element, 'backgroundColor');
@@ -3833,7 +3835,7 @@
                             var options = getOptions(element);
                             return _domToImage2.default.toPng(element, options).then(_utils.domprocess.dataUrlToImage).then(function (image) {
                                 _utils.domprocess.remove(image);
-                                return _utils.domprocess.clipImageToCanvas(image, self.rect.startX, self.rect.startY, self.rect.w, self.rect.h);
+                                return _utils.domprocess.clipImageToCanvas(image, self.rect.startX + options.marginX, self.rect.startY, self.rect.w, self.rect.h);
                             }).then(function (canvas) {
                                 var url = canvas.toDataURL('image/png');
                                 if (callback) callback(url);
