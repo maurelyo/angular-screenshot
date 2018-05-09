@@ -89,8 +89,10 @@ const screenshot = () => {
       const getOptions = (element) => {
          const boudingClientRect = element.getBoundingClientRect();
          let options = {
-            width: boudingClientRect.width,
-            height: boudingClientRect.height
+             width: boudingClientRect.width + boudingClientRect.left,
+             height: boudingClientRect.height + boudingClientRect.top,
+             marginX: boudingClientRect.left,
+             marginY: boudingClientRect.top
          };
          if (domprocess.isTransparent(element)) {
             const parentBackgroundColor = domprocess.getStyle(element, 'backgroundColor');
@@ -115,7 +117,7 @@ const screenshot = () => {
                .then(domprocess.dataUrlToImage)
                .then(image => {
                   domprocess.remove(image);
-                  return domprocess.clipImageToCanvas(image, self.rect.startX, self.rect.startY, self.rect.w, self.rect.h);
+                  return domprocess.clipImageToCanvas(image, self.rect.startX + options.marginX, self.rect.startY, self.rect.w, self.rect.h);
                })
                .then(canvas => {
                   const url = canvas.toDataURL('image/png');
